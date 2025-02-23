@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+.rounded-table {
+    border-radius: 15px;
+    overflow: hidden;
+}
+.rounded-table thead {
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+.rounded-table tbody {
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+.text-center th, .text-center td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.text-padding {
+    padding-top: 20px;
+}
+
+.test1 {
+    white-space: nowrap;
+    width: 200px;
+    border: 1px solid #000000;
+    overflow: hidden;
+    text-overflow: clip;
+}
