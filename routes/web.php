@@ -29,3 +29,7 @@ Route::prefix('products')->group(function () {
     Route::delete('/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
 
 });
+
+// Route::prefix('login')->group(function (){
+//     Route::get('/', [LoginController::class], 'register');
+// });
