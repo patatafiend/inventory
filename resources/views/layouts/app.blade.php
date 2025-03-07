@@ -6,9 +6,25 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Product Management</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    @vite('resources/js/categoryTree.js')
+    @vite('resources/js/ajax/category.js')
+    <style>
+        body {
+            padding-top: 60px; /* Adjust based on navbar height */
+            background-color: white !important; /* Ensure background is white */
+        }
+    </style>
 </head>
 <body>
-    @yield('content')
+    <header>
+        @if(!request()->is('login') && !request()->is('register'))
+            @include('products.partials.header')
+        @endif
+    </header>
+
+    <main class="container mt-4">
+        @yield('content')
+    </main>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

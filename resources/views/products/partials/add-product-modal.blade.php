@@ -26,6 +26,26 @@
                         <label>Price</label>
                         <input type="text" class="form-control" name="price" required>
                     </div>
+
+                    <div class="mb-3">
+                        <label for="category_id">Category</label>
+                        <select name="category_id" id="category_id" class="form-control" required>
+                            <option value="">Select Category</option>
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="unit_id">Unit</label>
+                        <select name="unit_id" id="unit_id" class="form-control" required>
+                            <option value="">Select Unit</option>
+                            @foreach ($units as $unit)
+                                <option value="{{ $unit->id }}">{{ $unit->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
                     <button type="submit" class="btn btn-primary">Save</button>
                 </form>
             </div>

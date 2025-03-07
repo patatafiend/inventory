@@ -12,10 +12,8 @@
     <div class="container">
         <h2 class="text-center text-black text-4xl font-bold p-4">Products</h2>
 
-        
         @include('products.partials.add-product-modal')
 
- 
         <table class="table mt-3 rounded-table text-center" id="product-table">
             <thead>
                 <tr>
@@ -23,6 +21,8 @@
                     <th>Description</th>
                     <th>Quantity</th>
                     <th>Price</th>
+                    <th>Category</th>
+                    <th>Unit</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -33,6 +33,8 @@
                         <td>{{ $product->description }}</td>
                         <td>{{ $product->quantity }}</td>
                         <td>{{ $product->price }}</td>
+                        <td>{{ $product->category->name }}</td>
+                        <td>{{ $product->unit->name }}</td>
                         <td>
                             <button class="btn btn-info view-product" data-id="{{ $product->id }}">View</button>
                             <button class="btn btn-warning edit-product" 
@@ -40,27 +42,24 @@
                                 data-name="{{ $product->name }}" 
                                 data-description="{{ $product->description }}" 
                                 data-quantity="{{ $product->quantity }}" 
-                                data-price="{{ $product->price }}">Edit</button>
+                                data-price="{{ $product->price }}"
+                                data-category_id="{{ $product->category_id }}"
+                                data-unit_id="{{ $product->unit_id }}">Edit</button>
                             <button class="btn btn-danger delete-product" data-id="{{ $product->id }}">Delete</button>
                         </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
-
     </div>
 </body>
 
-
-
-    
-    @include('products.partials.show-product-modal')
-    @include('products.partials.edit-product-modal')
+@include('products.partials.show-product-modal')
+@include('products.partials.edit-product-modal')
 @endsection
-
-
 
 @section('scripts')
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="store-product-route" content="{{ route('products.store') }}">
+    <meta name="delete-product-route" content="{{ url('/products') }}">
 @endsection

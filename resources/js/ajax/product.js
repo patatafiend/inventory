@@ -1,15 +1,17 @@
 $(document).ready(function () {
+    let baseUrl = $("meta[name='store-product-route']").attr("content");
+    let baseDeleteUrl = $("meta[name='delete-product-route']").attr("content");
 
     $("#addProductForm").submit(function (e) {
         e.preventDefault();
         let formData = $(this).serialize();
 
         $.ajax({
-            url: $("meta[name='store-product-route']").attr("content"),
+            url: `${baseUrl}`,
             type: "POST",
             data: formData,
             success: function (response) {
-                if (response.success == "added") {
+                if (response.success === "added") {
                     $("#addProductModal").modal("hide");
                     $("#addProductForm")[0].reset();
                     $("#product-list").append(response.html);
@@ -27,18 +29,18 @@ $(document).ready(function () {
 
     $(document).on("click", ".delete-product", function () {
         let productId = $(this).data("id");
-        let url = `/products/${productId}`; 
+        let url = `${baseDeleteUrl}/${productId}`;
 
         if (confirm("Are you sure you want to delete this product?")) {
             $.ajax({
                 url: url,
                 type: "DELETE",
                 data: {
-                    _token: $('meta[name="csrf-token"]').attr("content"), 
+                    _token: $('meta[name="csrf-token"]').attr("content"),
                 },
                 success: function (response) {
-                    if (response.success == 'deleted') {
-                        $("#product-" + productId).remove();
+                    if (response.success === "deleted") {
+                        $(`#product-${productId}`).remove();
                         alert(response.message);
                     } else {
                         alert("Failed to delete product.");
@@ -47,8 +49,6 @@ $(document).ready(function () {
                 error: function (xhr) {
                     console.log(xhr.responseText);
                     alert("Error deleting product.");
-                    alert(productId);
-                    alert(url);
                 },
             });
         }
@@ -58,10 +58,10 @@ $(document).ready(function () {
         let productId = $(this).data("id");
 
         $.ajax({
-            url: `/products/${productId}`,
+            url: `${baseUrl}/${productId}`,
             type: "GET",
             success: function (response) {
-                if (response.success == 'shown') {
+                if (response.success === "shown") {
                     $("#viewProductModal .modal-body").html(response.html);
                     $("#viewProductModal").modal("show");
                 } else {
@@ -75,53 +75,43 @@ $(document).ready(function () {
         });
     });
 
-    $(document).ready(function () {
-       
-        $(document).on('click', '.edit-product', function () {
-            let productId = $(this).data('id');
-            let productName = $(this).data('name');
-            let productDescription = $(this).data('description');
-            let productQuantity = $(this).data('quantity');
-            let productPrice = $(this).data('price');
-    
-           
-            $('#editProductId').val(productId);
-            $('#editName').val(productName);
-            $('#editDescription').val(productDescription);
-            $('#editQuantity').val(productQuantity);
-            $('#editPrice').val(productPrice);
-    
-       
-            $('#editProductModal').modal('show');
-        });
+    $(document).on("click", ".edit-product", function () {
+        let productId = $(this).data("id");
+
+        $("#editProductId").val(productId);
+        $("#editName").val($(this).data("name"));
+        $("#editDescription").val($(this).data("description"));
+        $("#editQuantity").val($(this).data("quantity"));
+        $("#editPrice").val($(this).data("price"));
+
+        $("#editProductModal").modal("show");
     });
-    
 
+    $(document).on("submit", "#editProductForm", function (e) {
+        e.preventDefault();
 
-    $(document).on('submit', '#editProductForm', function (e) {
-        e.preventDefault(); 
-    
-        let productId = $('#editProductId').val();
-        let formData = $(this).serialize();
-    
+        let productId = $("#editProductId").val();
+        let formData = $(this).serialize() + "&_method=PUT";
+
         $.ajax({
-            url: `/products/${productId}`, 
-            type: 'PUT',
+            url: `${baseUrl}/${productId}`,
+            type: "POST", // Use POST to simulate PUT
             data: formData,
             success: function (response) {
-                if(response.success == 'updated'){
-                    alert('Product updated!');
-                    $('#editProductModal').modal('hide');
+                if (response.success === "updated") {
+                    alert("Product updated!");
+                    $("#editProductModal").modal("hide");
                     location.reload();
-                }else if (response.success == 'no_changes'){
+                } else if (response.success === "no_changes") {
                     alert("No changes made");
-                }else{
-                    alert('Failed to update product');
+                } else {
+                    alert("Failed to update product");
                 }
             },
             error: function (xhr) {
                 console.log(xhr.responseText);
-            }
+            },
         });
     });
+    
 });

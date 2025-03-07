@@ -2,34 +2,26 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\UnitController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
-// Homepage - Redirect to products page
+// Homepage - Redirect to login
 Route::get('/', function () {
-    return redirect()->route('products.index');
+    return redirect()->route('login');
 });
 
-// Product Routes
-Route::prefix('products')->group(function () {
-    Route::get('/', [ProductController::class, 'index'])->name('products.index');
-    Route::post('/', [ProductController::class, 'store'])->name('products.store');
-    Route::get('/{id}/edit', [ProductController::class, 'edit'])->name('products.edit');
-    Route::get('/{id}', [ProductController::class, 'show'])->name('products.show'); 
-    Route::put('/{id}', [ProductController::class, 'update'])->name('products.update');
-    Route::delete('/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
-
+// Product & Category Routes (Protected by Auth Middleware)
+Route::middleware(['auth'])->group(function(){
+    Route::resource('products', ProductController::class);
+    Route::resource('categories', CategoryController::class);
+    Route::resource('users', UserController::class);
+    Route::resource('units', UnitController::class);
 });
 
-// Route::prefix('login')->group(function (){
-//     Route::get('/', [LoginController::class], 'register');
-// });
+// Authentication Routes
+Route::get('/login', [UserController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [UserController::class, 'login']);
+Route::get('/register', [UserController::class, 'showRegistrationForm'])->name('register');
+Route::post('/register', [UserController::class, 'register']);
+Route::post('/logout', [UserController::class, 'logout'])->name('logout');
