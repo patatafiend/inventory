@@ -8,6 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     @vite('resources/js/categoryTree.js')
     @vite('resources/js/ajax/category.js')
+    @vite('resources/js/ajax/unit.js')
     <style>
         body {
             padding-top: 60px; /* Adjust based on navbar height */
