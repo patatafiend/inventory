@@ -87,14 +87,25 @@ class UserController extends Controller
         }
         $user->save();
 
-        return redirect()->route('users.index')->with('success', 'User updated successfully.');
+        return response()->json([
+            'success' => 'updated',
+            'message' => 'user updated',
+        ]);
     }
 
     // Remove the specified user from storage
-    public function destroy(User $user)
+    public function destroy($id)
     {
-        $user->delete();
+        $user = User::find($id);
+        if(!$user){
+            return response()->json([
+                'success' => 'user missing', 
+                'message' => 'User not found'], 404);
+        }
 
-        return redirect()->route('users.index')->with('success', 'User deleted successfully.');
+        return response()->json([
+            'success' => 'deleted',
+            'message' => 'user deleted',
+        ]);
     }
 }

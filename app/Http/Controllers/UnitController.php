@@ -47,28 +47,45 @@ class UnitController extends Controller
     // Show the form for editing the specified unit
     public function edit(Unit $unit)
     {
-        return view('units.edit', compact('unit'));
+        $unit = Unit::find($id);
+        if (!$unit) {
+            return response()->json(['success' => 'not found', 'message' => 'unit not found']);
+        }
+        return response()->json($unit);
     }
 
     // Update the specified unit in storage
     public function update(Request $request, Unit $unit)
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
+            'name' => 'required|string|max:255|unique:units',
         ]);
 
         $unit->update([
             'name' => $request->name,
         ]);
 
-        return redirect()->route('units.index')->with('success', 'Unit updated successfully.');
+        return response()->json([
+            'success' => 'unit updated',
+            'message' => 'Unit Updated Successfully',
+        ]);
     }
 
     // Remove the specified unit from storage
-    public function destroy(Unit $unit)
+    public function destroy($id)
     {
-        $unit->delete();
+        $unit = Unit::find($id);
 
-        return redirect()->route('units.index')->with('success', 'Unit deleted successfully.');
+        if (!$unit) {
+            return response()->json([
+                'success' => 'unit missing', 
+                'message' => 'Unit not found'], 404);
+        }
+
+        return response()->json([
+            'success' => 'deleted',
+            'message' => 'Unit Deleted Successfully',
+            'unit' => $unit,
+        ]);
     }
 }

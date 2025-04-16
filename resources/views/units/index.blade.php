@@ -21,11 +21,11 @@
         </thead>
         <tbody id='unit-list'>
             @foreach ($units as $unit)
-                <tr>
+                <tr id="unit-{{ $unit->id }}">
                     <td>{{ $unit->name }}</td>
                     <td>
-                        <button type="button" class="btn btn-sm btn-warning edit-unit">Edit</button>
-                        <button type="button" class="btn btn-sm btn-danger delete-unit">Delete</button>
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#editUnitModal" class="btn btn-sm btn-warning edit-unit">Edit</button>
+                        <button type="button" class="btn btn-sm btn-danger delete-unit" data-id="{{$unit->id}}">Delete</button>
                     </td>
                 </tr>
             @endforeach

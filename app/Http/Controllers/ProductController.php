@@ -50,7 +50,7 @@ class ProductController extends Controller
     {
         $product = Product::find($id);
         if (!$product) {
-            return response()->json(['success' => false, 'message' => 'Product not found']);
+            return response()->json(['success' => 'not found', 'message' => 'Product not found']);
         }
         $html = view('products.partials.product_details', compact('product'))->render();
         return response()->json(['success' => 'shown', 'html' => $html]);
@@ -112,7 +112,8 @@ class ProductController extends Controller
     
         return response()->json([
             'success' => 'deleted', 
-            'message' => 'Product deleted successfully']);
+            'message' => 'Product deleted successfully',
+        ]);
     }
     
 }

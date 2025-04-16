@@ -9,6 +9,7 @@
     @vite('resources/js/categoryTree.js')
     @vite('resources/js/ajax/category.js')
     @vite('resources/js/ajax/unit.js')
+    @vite('resources/js/ajax/user.js')
     <style>
         body {
             padding-top: 60px; /* Adjust based on navbar height */

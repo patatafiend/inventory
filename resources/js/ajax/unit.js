@@ -36,9 +36,9 @@ $(document).ready(function () {
     $('#editUnitForm').on('submit', function(e) {
         e.preventDefault();
 
-        let categoryId = $('#editUnitId').val();
+        let unitId = $('#editUnitId').val();
         $.ajax({
-            url: `${baseDeleteUrl}/${categoryId}`,
+            url: `${baseDeleteUrl}/${unitId}`,
             method: 'PUT',
             data: $(this).serialize(),
             success: function(response) {
@@ -46,7 +46,7 @@ $(document).ready(function () {
                 location.reload(); // Reload the page to see the updated category
             },
             error: function(response) {
-                alert('Error updating category');
+                alert(response);
             }
         });
     });
@@ -65,7 +65,7 @@ $(document).ready(function () {
                 },
                 success: function (response) {
                     if (response.success === "deleted") {
-                        $(`#unit-${categoryId}`).remove();
+                        $(`#unit-${unitId}`).remove();
                         alert(response.message);
                     } else {
                         alert("Failed to delete unit.");
